@@ -6,9 +6,6 @@ ALL_MODES = {
   "color",
   "shape",
   "linestyle",
-  "page",
-  "file",
-  "navigation",
   "visual",
   "resize"
 }
@@ -35,18 +32,24 @@ keybindings = {
     modes       = {"tool"},
     call        = function() clickHighlighter() ; cleanShape() end
   },
-  hand = {
-    description = "Hand",
-    buttons     = {"<Shift>f"},
+  textHighlighter = {
+    description = "Text Highlighter",
+    buttons     = {"q"},
     modes       = {"tool"},
-    call        = clickHand
+    call        = function() clickTextHighlighter() ; cleanShape() end
   },
-  selection = {
-    description = "Selection",
-    buttons     = {"s"},
-    modes       = {"tool"},
-    call        = clickSelectRegion
-  },
+  --hand = {
+    --description = "Hand",
+    --buttons     = {"<Shift>f"},
+    --modes       = {"tool"},
+    --call        = clickHand
+  --},
+  --selection = {
+    --description = "Selection",
+    --buttons     = {"s"},
+    --modes       = {"tool"},
+    --call        = clickSelectRegion
+  --},
   tex = {
     description = "Tex",
     buttons     = {"i"},
@@ -55,7 +58,7 @@ keybindings = {
   },
   text = {
     description = "Text",
-    buttons     = {"<Shift>t", "<Shift>i"},
+    buttons     = {"y"},
     modes       = {"tool"},
     call        = clickText
   },
@@ -107,25 +110,16 @@ keybindings = {
   },
   shape = {
     description = "Shape mode",
-    buttons     = {"a"},
+    buttons     = {"s"},
     modes       = {"tool"},
     call        = function() currentMode = "shape" end
   },
-  stickyShape = {
-    description = "Sticky shape mode",
-    buttons     = {"<Shift>a"},
-    modes       = {"tool"},
-    call        = function()
-      currentMode = "shape"
-      sticky = true
-    end
-  },
-  linestyle = {
-    description = "Linestyle mode",
-    buttons     = {"q"},
-    modes       = {"tool"},
-    call        = function() currentMode = "linestyle" end
-  },
+  --linestyle = {
+    --description = "Linestyle mode",
+    --buttons     = {"q"},
+    --modes       = {"tool"},
+    --call        = function() currentMode = "linestyle" end
+  --},
   stickyLinestyle = {
     description = "Sticky linestyle mode",
     buttons     = {"<Shift>q"},
@@ -135,12 +129,6 @@ keybindings = {
       sticky = true
     end
   },
-  page = {
-    description = "Page mode",
-    buttons     = {"b", "p"},
-    modes       = {"tool"},
-    call        = function() currentMode = "page" end
-  },
   stickyPage = {
     description = "Sticky page mode",
     buttons     = {"<Shift>b", "<Shift>p"},
@@ -149,27 +137,6 @@ keybindings = {
       currentMode = "page"
       sticky = true
     end
-  },
-  navigation = {
-    description = "Navigation mode",
-    buttons     = {"g"},
-    modes       = {"tool"},
-    call        = function() currentMode = "navigation" end
-  },
-  stickyNavigation = {
-    description = "Sticky navigation mode",
-    buttons     = {"<Shift>g"},
-    modes       = {"tool"},
-    call        = function()
-      currentMode = "navigation"
-      sticky = true
-    end
-  },
-  file = {
-    description = "File mode",
-    buttons     = {"y"},
-    modes       = {"tool"},
-    call        = function() currentMode = "file" end
   },
   stickyFile = {
     description = "Sticky file mode",
@@ -272,12 +239,12 @@ keybindings = {
     modes       = {"color"},
     call        = function() changeToolColor(whiteColor) end
   },
-  pink = {
-    description = "Pink",
-    buttons     = {"q"},
-    modes       = {"color"},
-    call        = function() changeToolColor(pinkColor) end
-  },
+  --pink = {
+    --description = "Pink",
+    --buttons     = {"k"},
+    --modes       = {"color"},
+    --call        = function() changeToolColor(pinkColor) end
+  --},
   red = {
     description = "Red",
     buttons     = {"r"},
@@ -323,10 +290,10 @@ keybindings = {
 
   -- Shapes
   ruler = {
-    description = "Ruler",
+    description = "Line",
     buttons     = {"s"},
     modes       = {"shape"},
-    call        = clickRuler
+    call        = clickLine
   },
   arrow = {
     description = "Arrow",
@@ -336,7 +303,7 @@ keybindings = {
   },
   rectangle = {
     description = "Rectangle",
-    buttons     = {"r", "c"},
+    buttons     = {"r"},
     modes       = {"shape"},
     call        = clickRectangle
   },
@@ -351,6 +318,12 @@ keybindings = {
     buttons     = {"b"},
     modes       = {"shape"},
     call        = clickSpline
+  },
+  line = {
+    description = "Line",
+    buttons     = {"s"},
+    modes       = {"shape"},
+    call        = clickLine
   },
   fill = {
     description = "Fill",
@@ -384,200 +357,6 @@ keybindings = {
     call        = clickDashDotted
   },
 
-  -- Page
-  copyPage = {
-    description = "copyPage",
-    buttons     = {"c"},
-    modes       = {"page"},
-    call        = clickCopyPage,
-  },
-  deletePage = {
-    description = "DeletePage",
-    buttons     = {"d"},
-    modes       = {"page"},
-    call        = function ()
-      result = app.msgbox("Do you really want to delete this page?", {[1] = "Yes", [2] = "No"})
-      if result == 1 then
-        clickDeletePage()
-      end
-    end
-  },
-  moveUp = {
-    description = "Move Up",
-    buttons     = {"w"},
-    modes       = {"page"},
-    call        = clickMoveUp
-  },
-  moveDown = {
-    description = "Move Down",
-    buttons     = {"s"},
-    modes       = {"page"},
-    call        = clickMoveDown
-  },
-  newBefore = {
-    description = "New Before",
-    buttons     = {"<Shift>a"},
-    modes       = {"page"},
-    call        = clickNewBefore
-  },
-  newAfter = {
-    description = "New After",
-    buttons     = {"a"},
-    modes       = {"page"},
-    call        = clickNewAfter
-  },
-  deleteLayer = {
-    description = "Delete Layer",
-    buttons     = {"x"},
-    modes       = {"page"},
-    call        = function ()
-      result = app.msgbox("Do you really want to delete this layer?", {[1] = "Yes", [2] = "No"})
-      if result == 1 then
-        clickDeleteLayer()
-      end
-    end
-  },
-  newLayer = {
-    description = "NewLayer",
-    buttons     = {"y"},
-    modes       = {"page"},
-    call        = clickNewLayer
-  },
-  ruledBG = {
-    description = "Ruled background",
-    buttons     = {"f"},
-    modes       = {"page"},
-    call        = clickRuledBG
-  },
-  graphBG = {
-    description = "Graph background",
-    buttons     = {"g"},
-    modes       = {"page"},
-    call        = clickGraphBG
-  },
-  isoGraphBG = {
-    description = "Isometric graph background",
-    buttons     = {"r"},
-    modes       = {"page"},
-    call        = clickIsometricGraphBG
-  },
-  dottedGraphBG = {
-    description = "Dotted background",
-    buttons     = {"v"},
-    modes       = {"page"},
-    call        = clickDottedGraphBG
-  },
-  isodottedGraphBG = {
-    description = "Isometric dotted background",
-    buttons     = {"b"},
-    modes       = {"page"},
-    call        = clickIsometricDottedGraphBG
-  },
-  plainBG = {
-    description = "Plain background",
-    buttons     = {"n"},
-    modes       = {"page"},
-    call        = clickPlainBG
-  },
-
-  -- Navigation
-  goToLastPage = {
-    description = "Go to last page",
-    buttons     = {"<Shift>g", "e"},
-    modes       = {"navigation"},
-    call        = function()
-      lastPage = currentPage()
-      clickGoToLastPage()
-    end
-  },
-  goToFirstPage = {
-    description = "Go to first page",
-    buttons     = {"g"},
-    modes       = {"navigation"},
-    call        = function()
-      lastPage = currentPage()
-      clickGoToFirstPage()
-    end
-  },
-  goToTop = {
-    description = "Go to top",
-    buttons     = {"<Shift>b"},
-    modes       = {"navigation"},
-    call        = clickGoToTop
-  },
-  goToBottom = {
-    description = "Go to bottom",
-    buttons     = {"b"},
-    modes       = {"navigation"},
-    call        = clickGoToBottom
-  },
-  scrollPageDown = {
-    description = "Scroll page down",
-    buttons     = {"s"},
-    modes       = {"navigation"},
-    call        = clickScrollPageDown
-  },
-  scrollPageUp = {
-    description = "Scroll page up",
-    buttons     = {"w"},
-    modes       = {"navigation"},
-    call        = clickScrollPageUp
-  },
-  goBack = {
-    description = "Go back to last visited page",
-    buttons     = {"a"},
-    modes       = {"navigation"},
-    call        = function()
-      cur = currentPage()
-      goToPage(lastPage)
-      lastPage = cur
-    end
-  },
-  layerUp = {
-    description = "Layer up",
-    buttons     = {"y"},
-    modes       = {"navigation"},
-    call        = clickLayerUp
-  },
-  layerDown = {
-    description = "Layer Down",
-    buttons     = {"x"},
-    modes       = {"navigation"},
-    call        = clickLayerDown
-  },
-
-  -- Files
-  annotatePDF = {
-    description = "Annotate PDF",
-    buttons     = {"a", "o"},
-    modes       = {"file"},
-    call        = clickAnnotatePDF
-  },
-  exportAsPDF = {
-    description = "Export as PDF",
-    buttons     = {"e"},
-    modes       = {"file"},
-    call        = clickExportAsPDF
-  },
-  save = {
-    description = "Save file",
-    buttons     = {"s", "w"},
-    modes       = {"file"},
-    call        = clickSave
-  },
-  saveAs = {
-    description = "Save file as ...",
-    buttons     = {"<Shift>s", "<Shift>w"},
-    modes       = {"file"},
-    call        = clickSave
-  },
-  open = {
-    description = "Open file",
-    buttons     = {"f"},
-    modes       = {"file"},
-    call        = clickOpen
-  },
-
   -- Visual
   lasso = {
     description = "Select Region",
@@ -601,7 +380,7 @@ keybindings = {
 
 -- helper functions
 function cleanShape()
-  clickRuler(false)
+  clickLine(false)
   clickArrow(false)
   clickRectangle(false)
   clickEllipse(false)

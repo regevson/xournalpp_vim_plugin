@@ -32,6 +32,10 @@ function clickHighlighter()
   app.uiAction({["action"] = "ACTION_TOOL_HIGHLIGHTER"})
 end
 
+function clickTextHighlighter()
+  app.uiAction({["action"] = "ACTION_TOOL_SELECT_PDF_TEXT_LINEAR"})
+end
+
 function clickSelectRegion()
   app.uiAction({["action"] = "ACTION_TOOL_SELECT_REGION"})
 end
@@ -62,7 +66,7 @@ end
 
 
 -- shapes
-function clickRuler(enabled)
+function clickLine(enabled)
   app.uiAction({["action"] = "ACTION_RULER", ["enabled"] = enabled})
 end
 
